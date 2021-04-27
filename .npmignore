@@ -1,0 +1,18 @@
+# Parts
+src/
+wiki/
+tests/
+.gitmodules
+
+# Build
+.build/
+.travis.yml
+tsconfig.json
+rollup.config.js
+jestconfig.json
+build.js
+
+# Others
+unused/
+unused.*
+TODO
