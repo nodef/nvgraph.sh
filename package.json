@@ -3,9 +3,9 @@
   "version": "0.0.10",
   "description": "CLI for nvGraph, which is a GPU-based graph analytics library written by NVIDIA, using CUDA.",
   "preferGlobal": true,
-  "main": "nvgraph",
+  "main": "index.sh",
   "bin": {
-    "nvgraph": "nvgraph"
+    "nvgraph": "index.sh"
   },
   "scripts": {
     "test": "exit",

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 dir="$(dirname "$(readlink -f "$0")")"
 
-echo "$dir/nvgraph" "$@"
+# Call nvgraph
 "$dir/nvgraph" "$@"
