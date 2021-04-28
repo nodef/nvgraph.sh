@@ -1,6 +1,6 @@
 const cp = require('child_process');
 
-const URL = 'https://github.com/cppf/nvgraph.sh/releases/download/0.0.1/nvgraph';
+const URL = 'https://github.com/cppf/nvgraph.sh/releases/download/0.2.0/nvgraph';
 
 
 

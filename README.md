@@ -9,7 +9,13 @@ NVIDIA, using CUDA.<br>
 <br>
 
 ```bash
+## Finds pagerank of vertices
+## Returns ranks
 $ nvgraph pagerank -a 0.85 -t 1e-6 -o out.json web-Google.mtx
+
+## Traverses breadth-first from source vertex
+## Returns distances, predecessors
+$ nvgraph traversal-bfs -s 1 -o out.json web-Google.mtx
 ```
 
 <br>
