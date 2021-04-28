@@ -25,6 +25,7 @@ $ nvgraph pagerank -a 0.85 -t 1e-6 -o out.json web-Google.mtx
 - [pagerank, libcugraph Documentation](https://docs.rapids.ai/api/libcugraph/legacy/namespacecugraph.html#a8e07829e671204ff42aa226f40ff92d5)
 - [RAPIDS cuGraph GPU Graph Analytics Library](https://github.com/rapidsai/cugraph)
 - [RAPIDS CUDA DataFrame Internals for C++ Developers - S91043](https://developer.download.nvidia.com/video/gputechconf/gtc/2019/presentation/s91043-rapids-cuda-dataframe-internals-for-c++-developers.pdf)
+- [Get path of current script when executed through a symlink](https://unix.stackexchange.com/a/17500/166668)
 
 <br>
 <br>
