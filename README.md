@@ -13,6 +13,10 @@ NVIDIA, using CUDA.<br>
 ## Returns ranks
 $ nvgraph pagerank -o out.json web-Google.mtx -a 0.85 -t 1e-6
 
+## Counts triangles in undirected, lower triangular graph (TODO)
+## Returns count
+$ nvgraph triangle-count -o out.json web-Google.mtx
+
 ## Traverses breadth-first from source vertex
 ## Returns distances, predecessors
 $ nvgraph traversal-bfs -o out.json web-Google.mtx -s 1
