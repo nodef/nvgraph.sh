@@ -9,6 +9,10 @@ NVIDIA, using CUDA.<br>
 <br>
 
 ```bash
+## Finds single source shortest path from source vertex
+## Returns distances (STUCK)
+$ nvgraph sssp -o out.json web-Google.mtx -s 1
+
 ## Finds pagerank of vertices
 ## Returns ranks
 $ nvgraph pagerank -o out.json web-Google.mtx -a 0.85 -t 1e-6
