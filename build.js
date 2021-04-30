@@ -6,9 +6,9 @@ const htmlEntities = require('html-entities');
 const markdownToText = require('markdown-to-text').default;
 
 const NVGRAPH_URL = 'https://github.com/cppf/nvgraph.sh/releases/download/0.5.0/nvgraph';
-const HELP_URL    = 'https://github.com/nodef/extra-npm/wiki/${name}';
-const HELP_NAME_SIZE = 26;
-const HELP_DESC_SIZE = 64;
+const HELP_URL    = 'https://github.com/nodef/nvgraph.sh/wiki/${name}';
+const HELP_NAME_SIZE = 16;
+const HELP_DESC_SIZE = 74;
 
 
 
@@ -65,6 +65,7 @@ function fetchSuper(url) {
 function readDescWiki() {
   var a = new Map();
   for (var f of fs.readdirSync('wiki')) {
+    if (path.extname(f) !== '.md') continue;
     if (f==='Home.md') continue;
     var d = readFile(`wiki/${f}`);
     var name = f.replace(/\..*/, '');
