@@ -1,0 +1,6 @@
+CLI for nvGraph, which is a GPU-based graph analytics library written by NVIDIA, using CUDA.
+
+${commands}
+
+If you need command details, use `nvgraph help <command>`.
+Or else see https://github.com/nodef/nvgraph.sh.
