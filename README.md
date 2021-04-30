@@ -8,8 +8,8 @@ NVIDIA, using CUDA.<br>
 This is for running **nvGraph** functions right from the CLI with graphs in
 MatrixMarket format (.mtx) directly. It just needs a x86_64 linux machine
 with NVIDIA GPU drivers installed. Execution time, along with the results
-can be saved in JSON/YAML file. You can install this with
-`npm install -g nvgraph.sh`.
+can be saved in JSON/YAML file. The [executable code] is written in C++.
+You can install this with `npm install -g nvgraph.sh`.
 
 > Stability: Experimental.
 
@@ -63,6 +63,7 @@ $ nvgraph traversal-bfs -o=out.json -f web-Google.mtx -s=1
 
 [![](https://img.youtube.com/vi/3s9psf01ldo/maxresdefault.jpg)](https://www.youtube.com/watch?v=3s9psf01ldo)
 
+[executable code]: https://github.com/cppf/nvgraph.sh
 [pagerank]: https://github.com/nodef/nvgraph.sh/wiki/pagerank
 [sssp]: https://github.com/nodef/nvgraph.sh/wiki/sssp
 [traversal-bfs]: https://github.com/nodef/nvgraph.sh/wiki/traversal-bfs
