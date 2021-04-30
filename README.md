@@ -41,7 +41,7 @@ $ nvgraph traversal-bfs -o=out.json -f web-Google.mtx -s=1
 
 | Command         | Action                       |
 | --------------- | ---------------------------- |
-| [pagerank] | Finds single source shortest path from source vertex. |
+| [pagerank] | Finds pagerank of all vertices. |
 | [sssp] | Finds single source shortest path from source vertex. |
 | [traversal-bfs] | Traverses breadth-first from source vertex. |
 | [triangle-count] | Counts triangles in undirected, lower triangular graph. |
