@@ -17,19 +17,19 @@ You can install this with `npm install -g nvgraph.sh`.
 
 ```bash
 ## Finds single source shortest path from source vertex
-## : returns distances
+## → returns distances
 $ nvgraph sssp -o=out.json -f web-Google.mtx -s=1
 
 ## Finds pagerank of all vertices
-## : returns ranks
+## → returns ranks
 $ nvgraph pagerank -o=out.json -f web-Google.mtx -a=0.85 -t=1e-6
 
 ## Counts triangles in undirected, lower triangular graph
-## : returns count
+## → returns count
 $ nvgraph triangle-count -o=out.json -f web-Google.mtx
 
 ## Traverses breadth-first from source vertex
-## : returns distances, predecessors
+## → returns distances, predecessors
 $ nvgraph traversal-bfs -o=out.json -f web-Google.mtx -s=1
 ```
 
