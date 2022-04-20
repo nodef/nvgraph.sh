@@ -1,6 +1,5 @@
-CLI for nvGraph, which is a GPU-based graph analytics library written by
-NVIDIA, using CUDA.<br>
-🖥️ [Shell](https://www.npmjs.com/package/nvgraph.sh),
+CLI for nvGraph, which is a GPU-based graph analytics library written by NVIDIA, using CUDA.<br>
+🐚 [Shell](https://www.npmjs.com/package/nvgraph.sh),
 📜 [Files](https://unpkg.com/nvgraph.sh/),
 📘 [Wiki](https://github.com/nodef/nvgraph.sh/wiki/).
 
@@ -10,7 +9,7 @@ with NVIDIA GPU drivers installed. Execution time, along with the results
 can be saved in JSON/YAML file. The [executable code] is written in C++.
 You can install this with `npm install -g nvgraph.sh`.
 
-> Stability: Experimental.
+> Stability: [Experimental](https://www.youtube.com/watch?v=L1j93RnIxEo).
 
 <br>
 

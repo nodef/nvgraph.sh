@@ -1,6 +1,6 @@
 {
   "name": "nvgraph.sh",
-  "version": "1.2.4",
+  "version": "1.2.7",
   "description": "CLI for nvGraph, which is a GPU-based graph analytics library written by NVIDIA, using CUDA.",
   "preferGlobal": true,
   "main": "index.sh",
@@ -10,10 +10,6 @@
   "scripts": {
     "test": "exit",
     "deploy": "node ./build.js && ebuild github+publish --publishMin=false --publishBranch=false"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nodef/nvgraph.sh.git"
   },
   "keywords": [
     "cli",
@@ -28,6 +24,10 @@
   ],
   "author": "wolfram77@gmail.com",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nodef/nvgraph.sh.git"
+  },
   "bugs": {
     "url": "https://github.com/nodef/nvgraph.sh/issues"
   },

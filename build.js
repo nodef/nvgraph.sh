@@ -5,7 +5,7 @@ const path = require('path');
 const htmlEntities = require('html-entities');
 const markdownToText = require('markdown-to-text').default;
 
-const NVGRAPH_URL = 'https://github.com/nodef/nvgraph.sh/releases/download/1.2.0/nvgraph';
+const NVGRAPH_URL = 'https://github.com/nodef/nvgraph.sh/releases/download/1.2.5/nvgraph';
 const HELP_URL    = 'https://github.com/nodef/nvgraph.sh/wiki/${name}';
 const HELP_NAME_SIZE = 16;
 const HELP_DESC_SIZE = 74;
