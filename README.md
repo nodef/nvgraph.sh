@@ -1,9 +1,8 @@
 CLI for nvGraph, which is a GPU-based graph analytics library written by
 NVIDIA, using CUDA.<br>
-:package: [NPM](https://www.npmjs.com/package/nvgraph.sh),
-:smiley_cat: [GitHub](https://github.com/orgs/nodef/packages?repo_name=nvgraph.sh),
-:scroll: [Files](https://unpkg.com/nvgraph.sh/),
-:blue_book: [Wiki](https://github.com/nodef/nvgraph.sh/wiki/).
+🖥️ [Shell](https://www.npmjs.com/package/nvgraph.sh),
+📜 [Files](https://unpkg.com/nvgraph.sh/),
+📘 [Wiki](https://github.com/nodef/nvgraph.sh/wiki/).
 
 This is for running **nvGraph** functions right from the CLI with graphs in
 MatrixMarket format (.mtx) directly. It just needs a x86_64 linux machine
@@ -63,7 +62,7 @@ $ nvgraph traversal-bfs -o=out.json -f web-Google.mtx -s=1
 
 [![](https://img.youtube.com/vi/3s9psf01ldo/maxresdefault.jpg)](https://www.youtube.com/watch?v=3s9psf01ldo)
 
-[executable code]: https://github.com/cppf/nvgraph.sh
+[executable code]: src/cxx
 [pagerank]: https://github.com/nodef/nvgraph.sh/wiki/pagerank
 [sssp]: https://github.com/nodef/nvgraph.sh/wiki/sssp
 [traversal-bfs]: https://github.com/nodef/nvgraph.sh/wiki/traversal-bfs

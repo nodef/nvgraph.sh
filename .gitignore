@@ -1,3 +1,9 @@
+## VS Code
+## -------
+.vscode/
+.project
+.classpath
+
 # Logs
 logs
 *.log

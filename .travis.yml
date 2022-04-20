@@ -1,9 +1,0 @@
-language: node_js
-node_js:
-  - "node"
-before_install:
-- if [[ "$GITHUB_TOKEN" != "" ]]; then git clone https://${GITHUB_TOKEN}@github.com/nodef/deploy "$HOME/deploy"; fi
-- if [[ -d ~/deploy ]]; then bash "$HOME/deploy/before_install.sh"; fi
-script:
-- if [[ ! -d "$HOME/deploy" ]]; then npm test; fi
-- if [[ -d "$HOME/deploy" ]]; then bash "$HOME/deploy/script.sh"; fi
