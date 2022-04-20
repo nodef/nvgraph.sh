@@ -234,7 +234,7 @@ void runPagerank(int argc, char **argv) {
   if (runError(e)) return;
   printf("Loading graph %s ...\n", o.input.c_str());
   auto x  = readMtxOutDiGraph(o.input.c_str()); println(x);
-  auto xt = transposeWithDegree(x);  print(xt); printf(" (transpose)\n");
+  auto xt = transposeWithDegree(x);  print(xt); printf(" (transposeWithDegree)\n");
   auto ranks = pagerank(t, o.repeat, xt, o.alpha, o.tolerance, o.max_iter);
   printf("[%.3f ms] nvgraphPagerank\n", t);
   if (o.output.empty()) return;
