@@ -1,6 +1,6 @@
 {
   "name": "nvgraph.sh",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "CLI for nvGraph, which is a GPU-based graph analytics library written by NVIDIA, using CUDA.",
   "preferGlobal": true,
   "main": "index.sh",

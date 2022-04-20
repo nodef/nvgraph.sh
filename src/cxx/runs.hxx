@@ -59,8 +59,8 @@ bool runError(const string& e) {
 void runWrite(stringstream& s, const RunOptions& o) {
   ofstream f(o.output);
   writeBegin(f, o.format);
-  f << s.rdbuf();
   writeEnd(s, o.format);
+  f << s.rdbuf();
   f.close();
 }
 
