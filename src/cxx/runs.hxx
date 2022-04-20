@@ -215,13 +215,14 @@ void runSssp(int argc, char **argv) {
   e = runVerify(o);
   if (runError(e)) return;
   printf("Loading graph %s ...\n", o.input.c_str());
-  auto x = readMtxOutDiGraph(o.input.c_str());  println(x);
-  e = runSsspVerify(o, x);
+  auto x  = readMtxOutDiGraph(o.input.c_str()); println(x);
+  auto xt = transpose(x); print(xt); printf(" (transpose)\n");
+  e = runSsspVerify(o, xt);
   if (runError(e)) return;
-  auto dists = sssp(t, o.repeat, x, o.source);
+  auto dists = sssp(t, o.repeat, xt, o.source);
   printf("[%.3f ms] nvgraphSssp\n", t);
   if (o.output.empty()) return;
-  runSsspOutput(s, o, x, t, dists);
+  runSsspOutput(s, o, xt, t, dists);
   runWrite(s, o);
 }
 

@@ -22,11 +22,11 @@ using std::max;
 
 #define READ_MTX_RETURN(R, unq) \
   inline auto readMtx##R(istream& s) { \
-    R<> a; readMtxW(a, s, unq); \
+    R<int, NONE, float> a; readMtxW(a, s, unq); \
     return a; \
   } \
   inline auto readMtx##R(const char *pth) { \
-    R<> a; readMtxW(a, pth, unq); \
+    R<int, NONE, float> a; readMtxW(a, pth, unq); \
     return a; \
   }
 
@@ -34,6 +34,7 @@ using std::max;
 template <class G>
 void readMtxW(G& a, istream& s, bool unq=false) {
   using K = typename G::key_type;
+  using E = typename G::edge_value_type;
   string ln, h0, h1, h2, h3, h4;
 
   // read header
@@ -57,11 +58,12 @@ void readMtxW(G& a, istream& s, bool unq=false) {
 
   // read edges (from, to)
   while (getline(s, ln)) {
-    K u, v;
+    K u, v; E w = E(1);
     ls = stringstream(ln);
     if (!(ls >> u >> v)) break;
-    a.addEdge(u, v);
-    if (sym) a.addEdge(v, u);
+    if (!(ls >> w)) w = E(1);
+    a.addEdge(u, v, w);
+    if (sym) a.addEdge(v, u, w);
   }
   a.correct(unq);
 }
