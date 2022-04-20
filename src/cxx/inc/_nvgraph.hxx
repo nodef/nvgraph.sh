@@ -22,3 +22,7 @@ void tryNvgraph(nvgraphStatus_t err, const char* exp, const char* func, int line
 
 #define TRY_NVGRAPH(exp) tryNvgraph(exp, #exp, __func__, __LINE__, __FILE__)
 #endif
+
+#ifndef TRY
+#define TRY(exp) TRY_NVGRAPH(exp)
+#endif

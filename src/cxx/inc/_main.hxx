@@ -10,5 +10,4 @@
 #include "_vector.hxx"
 #include "_queue.hxx"
 #include "_bitset.hxx"
-#include "_cuda.hxx"
 #include "_nvgraph.hxx"

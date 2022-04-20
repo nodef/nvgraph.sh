@@ -17,7 +17,7 @@ using std::is_same;
 // -------------
 
 template <class G, class T=float>
-PagerankResult<T> pagerank(float& t, int T, const G& xt, T p=0.85, T E=1e-6, T L=500, const vector<T> *q=nullptr) {
+auto pagerank(float& t, int R, const G& xt, T p=0.85, T E=1e-6, int L=500, const vector<T> *q=nullptr) {
   int N = xt.order();
   nvgraphHandle_t     h;
   nvgraphGraphDescr_t g;
@@ -26,7 +26,7 @@ PagerankResult<T> pagerank(float& t, int T, const G& xt, T p=0.85, T E=1e-6, T L
   vector<cudaDataType_t> vtype {type, type};
   vector<cudaDataType_t> etype {type};
   vector<T> ranks(N);
-  if (N==0) return {ranks};
+  if (N==0) return decompressContainer(xt, ranks);
   auto ks    = vertexKeys(xt);
   auto vfrom = sourceOffsetsAs(xt, int());
   auto efrom = destinationIndicesAs(xt, int());
@@ -51,7 +51,7 @@ PagerankResult<T> pagerank(float& t, int T, const G& xt, T p=0.85, T E=1e-6, T L
   t = measureDurationMarked([&](auto mark) {
     if (q) TRY_NVGRAPH( nvgraphSetVertexData(h, g, ranks.data(), 1) );
     mark([&]() { TRY_NVGRAPH( nvgraphPagerank(h, g, 0, &p, 0, !!q, 1, E, L) ); });
-  }, T);
+  }, R);
   TRY_NVGRAPH( nvgraphGetVertexData(h, g, ranks.data(), 1) );
 
   TRY_NVGRAPH( nvgraphDestroyGraphDescr(h, g) );

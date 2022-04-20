@@ -3,6 +3,7 @@
 #include "Graph.hxx"
 #include "mtx.hxx"
 #include "snap.hxx"
+#include "output.hxx"
 #include "vertices.hxx"
 #include "edges.hxx"
 #include "csr.hxx"

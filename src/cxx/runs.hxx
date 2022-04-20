@@ -46,7 +46,7 @@ struct RunTraversalBfsOptions : public RunSsspOptions {
 // RUN-ERROR
 // ---------
 
-bool runError(string& e) {
+bool runError(const string& e) {
   if (e.empty()) return false;
   cerr << "error: " << e << '\n';
   return true;
@@ -56,7 +56,7 @@ bool runError(string& e) {
 // RUN-WRITE
 // ---------
 
-void runWrite(stringstream& s, RunOptions& o) {
+void runWrite(stringstream& s, const RunOptions& o) {
   ofstream f(o.output);
   writeBegin(f, o.format);
   f << s.rdbuf();
@@ -126,7 +126,7 @@ void runTraversalBfsParse(RunTraversalBfsOptions& o, int argc, char **argv) {
 // RUN-*-VERIFY
 // ------------
 
-string runVerify(RunOptions& o) {
+string runVerify(const RunOptions& o) {
   if (!o.error.empty()) return o.error;
   if (o.input.empty()) return "no input file given";
   if (!existsFile(o.input.c_str())) return string("file \"") + o.input + "\" does not exist";
@@ -135,14 +135,14 @@ string runVerify(RunOptions& o) {
 }
 
 template <class G>
-string runSsspVerify(RunSsspOptions& o, G& x) {
+string runSsspVerify(const RunSsspOptions& o, const G& x) {
   string e = runVerify(o);
   if (!e.empty()) return e;
   if (!x.hasVertex(o.source)) return string("source vertex \"") + to_string(o.source) + "\" not in graph";
   return "";
 }
 
-string runPagerankVerify(RunPagerankOptions& o) {
+string runPagerankVerify(const RunPagerankOptions& o) {
   string e = runVerify(o);
   if (!e.empty()) return e;
   if (o.alpha<0 || o.alpha>1) return "alpha must be between 0 and 1";
@@ -151,7 +151,7 @@ string runPagerankVerify(RunPagerankOptions& o) {
 }
 
 template <class G>
-string runTraversalBfsVerify(RunTraversalBfsOptions& o, G& x) {
+string runTraversalBfsVerify(const RunTraversalBfsOptions& o, const G& x) {
   return runSsspVerify(o, x);
 }
 
@@ -162,14 +162,14 @@ string runTraversalBfsVerify(RunTraversalBfsOptions& o, G& x) {
 // ------------
 
 template <class G>
-void runOutput(ostream& a, RunOptions& o, G& x) {
+void runOutput(ostream& a, const RunOptions& o, const G& x) {
   writeValue(a, "input", o.input,   o.format);
   writeValue(a, "order", x.order(), o.format);
   writeValue(a, "size",  x.size(),  o.format);
 }
 
 template <class G, class C>
-void runSsspOutput(ostream& a, RunSsspOptions& o, G& x, float t, C& dists) {
+void runSsspOutput(ostream& a, const RunSsspOptions& o, const G& x, float t, const C& dists) {
   runOutput(a, o, x);
   writeValue (a, "source",  o.source, o.format);
   writeValue (a, "time_ms", t,        o.format);
@@ -177,7 +177,7 @@ void runSsspOutput(ostream& a, RunSsspOptions& o, G& x, float t, C& dists) {
 }
 
 template <class G, class C>
-void runPagerankOutput(ostream& a, RunPagerankOptions& o, G& x, float t, C& ranks) {
+void runPagerankOutput(ostream& a, const RunPagerankOptions& o, const G& x, float t, const C& ranks) {
   runOutput(a, o, x);
   writeValue (a, "alpha",     o.alpha,     o.format);
   writeValue (a, "tolerance", o.tolerance, o.format);
@@ -187,14 +187,14 @@ void runPagerankOutput(ostream& a, RunPagerankOptions& o, G& x, float t, C& rank
 }
 
 template <class G>
-void runTriangleCountOutput(ostream& a, RunTriangleCountOptions& o, G& x, float t, uint64_t count) {
+void runTriangleCountOutput(ostream& a, const RunTriangleCountOptions& o, const G& x, float t, uint64_t count) {
   runOutput(a, o, x);
   writeValue(a, "time_ms", t, o.format);
   if (o.full) writeValue(a, "count", count, o.format);
 }
 
 template <class G, class C>
-void runTraversalBfsOutput(ostream& a, RunTraversalBfsOptions& o, const G& x, float t, C& dists, C& preds) {
+void runTraversalBfsOutput(ostream& a, const RunTraversalBfsOptions& o, const G& x, float t, const C& dists, const C& preds) {
   runOutput(a, o, x);
   writeValue (a, "source",  o.source, o.format);
   writeValue (a, "time_ms", t,        o.format);
@@ -215,7 +215,7 @@ void runSssp(int argc, char **argv) {
   e = runVerify(o);
   if (runError(e)) return;
   printf("Loading graph %s ...\n", o.input.c_str());
-  auto x = readMtx(o.input.c_str()); println(x);
+  auto x = readMtxOutDiGraph(o.input.c_str());  println(x);
   e = runSsspVerify(o, x);
   if (runError(e)) return;
   auto dists = sssp(t, o.repeat, x, o.source);
@@ -233,8 +233,8 @@ void runPagerank(int argc, char **argv) {
   e = runPagerankVerify(o);
   if (runError(e)) return;
   printf("Loading graph %s ...\n", o.input.c_str());
-  auto x  = readMtx(o.input.c_str()); println(x);
-  auto xt = transposeForNvgraph(x);   print(xt); printf(" (transpose)\n");
+  auto x  = readMtxOutDiGraph(o.input.c_str()); println(x);
+  auto xt = transposeWithDegree(x);  print(xt); printf(" (transpose)\n");
   auto ranks = pagerank(t, o.repeat, xt, o.alpha, o.tolerance, o.max_iter);
   printf("[%.3f ms] nvgraphPagerank\n", t);
   if (o.output.empty()) return;
@@ -250,11 +250,11 @@ void runTriangleCount(int argc, char **argv) {
   e = runVerify(o);
   if (runError(e)) return;
   printf("Loading graph %s ...\n", o.input.c_str());
-  auto x = readMtx(o.input.c_str()); println(x);
-  lowerTriangularW(x); print(x); printf(" (lowerTriangular)\n");
-  uint64_t count = triangleCount(t, o.repeat, x);
+  auto x  = readMtxOutDiGraph(o.input.c_str()); println(x);
+  auto xl = lowerTriangular(x); print(xl);      printf(" (lowerTriangular)\n");
+  uint64_t count = triangleCount(t, o.repeat, xl);
   printf("[%.3f ms] nvgraphTriangleCount\n", t);
-  runTriangleCountOutput(s, o, x, t, count);
+  runTriangleCountOutput(s, o, xl, t, count);
   runWrite(s, o);
 }
 
@@ -266,7 +266,7 @@ void runTraversalBfs(int argc, char **argv) {
   e = runVerify(o);
   if (runError(e)) return;
   printf("Loading graph %s ...\n", o.input.c_str());
-  auto x = readMtx(o.input.c_str()); println(x);
+  auto x = readMtxOutDiGraph(o.input.c_str());  println(x);
   e = runTraversalBfsVerify(o, x);
   if (runError(e)) return;
   auto a = traversalBfs(t, o.repeat, x, o.source, o.alpha, o.beta);

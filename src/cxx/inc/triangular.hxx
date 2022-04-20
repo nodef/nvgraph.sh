@@ -22,7 +22,7 @@ auto lowerTriangular(const G& x) {
 
 template <class G>
 void lowerTriangularU(G& a) {
-  x.forEachVertexKey([&](auto u) {
-    x.forEachEdge(u, [&](auto v, auto w) { if (u <= v) a.removeEdge(u, v); });
+  a.forEachVertexKey([&](auto u) {
+    a.forEachEdge(u, [&](auto v, auto w) { if (u <= v) a.removeEdge(u, v); });
   });
 }
