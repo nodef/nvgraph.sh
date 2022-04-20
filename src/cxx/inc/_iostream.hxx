@@ -8,6 +8,7 @@
 #include <iostream>
 #include <type_traits>
 #include <iterator>
+#include <sys/stat.h>
 
 using std::pair;
 using std::array;
@@ -19,6 +20,17 @@ using std::ifstream;
 using std::is_fundamental;
 using std::iterator_traits;
 using std::cout;
+
+
+
+
+// EXISTS-FILE
+// -----------
+
+bool existsFile(const char *pth) {
+  struct stat s;
+  return stat(pth, &s) == 0;
+}
 
 
 

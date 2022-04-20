@@ -19,14 +19,9 @@
 #include "identicals.hxx"
 #include "chains.hxx"
 #include "dynamic.hxx"
+#include "triangular.hxx"
 #include "pagerank.hxx"
-#include "pagerankSeq.hxx"
-#include "pagerankMonolithicSeq.hxx"
-#include "pagerankCuda.hxx"
-#include "pagerankMonolithicCuda.hxx"
-
-#ifndef NVGRAPH_DISABLE
-#include "pagerankNvgraph.hxx"
-#else
-#define pagerankNvgraph pagerankCuda
-#endif
+#include "srSpmv.hxx"
+#include "sssp.hxx"
+#include "traversalBfs.hxx"
+#include "triangleCount.hxx"

@@ -1,34 +1,24 @@
-#include <vector>
 #include <string>
-#include <cstdio>
-#include <iostream>
-#include "inc/main.hxx"
+#include <stdio.h>
+#include "runs.hxx"
 
 using namespace std;
 
 
 
 
-template <class G, class H>
-void runPagerank(const G& x, const H& xt, int repeat) {
-  using T = float;
-  enum NormFunction { L0=0, L1=1, L2=2, Li=3 };
-  vector<T> *init = nullptr;
-
-  // Find pagerank using nvGraph (damping=0.85, tolerance=1E-6, maxIterations=500).
-  auto a0 = pagerankNvgraph(x, xt, init, {repeat});
-  auto e0 = l1Norm(a0.ranks, a0.ranks);
-  printf("[%09.3f ms; %03d iters.] [%.4e err.] pagerankNvgraph\n", a0.time, a0.iterations, e0);
-}
-
-
 int main(int argc, char **argv) {
-  char *file = argv[1];
-  int repeat = argc>2? stoi(argv[2]) : 5;
-  printf("Loading graph %s ...\n", file);
-  auto x  = readMtxOutDiGraph(file); println(x);
-  auto xt = transposeWithDegree(x);  print(xt); printf(" (transposeWithDegree)\n");
-  runPagerank(x, xt, repeat);
+  string cmd = argc>1? argv[1] : "help";
+  if (cmd=="shortest-path")  cmd = "sssp";
+  else if (cmd=="pr")        cmd = "pagerank";
+  else if (cmd=="bfs")       cmd = "traversal-bfs";
+  else if (cmd=="triangles") cmd = "triangle-count";
+  if (cmd=="help") {}
+  else if (cmd=="sssp"          ) runSssp(argc, argv);
+  else if (cmd=="pagerank"      ) runPagerank(argc, argv);
+  else if (cmd=="traversal-bfs" ) runTraversalBfs(argc, argv);
+  else if (cmd=="triangle-count") runTriangleCount(argc, argv);
+  else printf("error: unknown command \"%s\"\n", cmd.c_str());
   printf("\n");
   return 0;
 }
