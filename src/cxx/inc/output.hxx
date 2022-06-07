@@ -50,7 +50,7 @@ void writeEnd(ostream& a, string fmt) {
 template <class T>
 void writeValueYaml(ostream& a, string key, T v) {
   if (!key.empty()) a << key << ": ";
-  a << stringify(v) << (key.empty()? "\n" : ",\n");
+  a << stringify(v) << "\n";
 }
 
 template <class T>

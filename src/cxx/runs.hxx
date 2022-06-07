@@ -85,7 +85,7 @@ void runParse(RunOptions& o, int argc, char **argv, F fn) {
     else { o.error  = "unknown option \"" + k + "\""; break; }
   }
   size_t e = o.output.rfind('.');
-  o.format = e==string::npos? o.output.substr(e+1) : "json";
+  o.format = e!=string::npos? o.output.substr(e+1) : "json";
 }
 
 void runSsspParse(RunSsspOptions& o, int argc, char **argv) {
