@@ -50,13 +50,13 @@ void writeEnd(ostream& a, string fmt) {
 template <class T>
 void writeValueYaml(ostream& a, string key, T v) {
   if (!key.empty()) a << key << ": ";
-  a << stringify(v) << "\n";
+  writeString(a, v); a << "\n";
 }
 
 template <class T>
 void writeValueJson(ostream& a, string key, T v) {
   if (!key.empty()) a << "  \"" << key << "\": ";
-  a << stringify(v) << (key.empty()? "\n" : ",\n");
+  writeString(a, v); a << (key.empty()? "\n" : ",\n");
 }
 
 template <class T>
@@ -75,7 +75,7 @@ template <class I>
 void writeValuesYaml(ostream& a, string key, I&& vs) {
   if (!key.empty()) a << key << ":\n";
   for (auto v : vs)
-    a << "- " << stringify(v) << '\n';
+  { a << "- "; writeString(a, v); a << '\n'; }
 }
 
 template <class I>
@@ -85,7 +85,7 @@ void writeValuesJson(ostream& a, string key, I&& vs) {
   a << "[\n";
   auto b = a.tellp();
   for (auto v : vs)
-    a << pre << stringify(v) << ",\n";
+  { a << pre; writeString(a, v); a << ",\n"; }
   if (a.tellp()!=b) a.seekp(-2, a.cur);
   a << '\n' << pre.substr(2) << (key.empty()? "]\n" : "],\n");
 }

@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
+#include <ostream>
 
 using std::string;
+using std::ostream;
 using std::to_string;
 
 
@@ -20,6 +22,15 @@ string stringify(string x) {
   a += x;
   a += "\"";
   return a;
+}
+
+template <class T>
+void writeString(ostream& a, T x) {
+  a << x;
+}
+
+void writeString(ostream& a, const string& x) {
+  a << '\"' << x << '\"';
 }
 
 
