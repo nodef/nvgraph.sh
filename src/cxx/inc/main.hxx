@@ -20,6 +20,7 @@
 #include "identicals.hxx"
 #include "chains.hxx"
 #include "dynamic.hxx"
+#include "statictics.hxx"
 #include "triangular.hxx"
 #include "pagerank.hxx"
 #include "srSpmv.hxx"

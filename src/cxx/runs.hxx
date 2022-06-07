@@ -178,11 +178,14 @@ void runSsspOutput(ostream& a, const RunSsspOptions& o, const G& x, float t, con
 
 template <class G, class C>
 void runPagerankOutput(ostream& a, const RunPagerankOptions& o, const G& x, float t, const C& ranks) {
+  auto lc = lorenzCurve(ranks);
   runOutput(a, o, x);
   writeValue (a, "alpha",     o.alpha,     o.format); a << scientific;
   writeValue (a, "tolerance", o.tolerance, o.format); a << fixed;
   writeValue (a, "max_iter",  o.max_iter,  o.format);
   writeValue (a, "time_ms",   t,           o.format); a << scientific;
+  writeValue (a, "gini_coefficient", giniCoefficient(lc), o.format);
+  writeValues(a, "lorenz_curve", lc, o.format);
   if (o.full) writeValues(a, "ranks", ranks, o.format); a << fixed;
 }
 
