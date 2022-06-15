@@ -106,6 +106,7 @@ $ nvgraph traversal-bfs -o=out.json -f web-Google.mtx -s=1
 <br>
 
 [![](https://img.youtube.com/vi/3s9psf01ldo/maxresdefault.jpg)](https://www.youtube.com/watch?v=3s9psf01ldo)
+[![DOI](https://zenodo.org/badge/362208913.svg)](https://zenodo.org/badge/latestdoi/362208913)
 
 
 [pagerank]: https://github.com/nodef/nvgraph.sh/wiki/pagerank

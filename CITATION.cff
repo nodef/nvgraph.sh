@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Sahu
+    given-names: Subhajit
+    orcid: https://orcid.org/0000-0001-5140-6578
+title: "nodef/nvgraph.sh: CLI for nvGraph, which is a GPU-based graph analytics library written by NVIDIA, using CUDA"
+version: 1.2.15
+doi: 10.5281/zenodo.6647366
+date-released: 2022-06-07
