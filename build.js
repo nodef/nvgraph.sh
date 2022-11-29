@@ -1,10 +1,12 @@
-const fs = require('fs');
-const os = require('os');
-const cp = require('child_process');
-const path = require('path');
-const htmlEntities = require('html-entities');
+const path  = require('path');
+const fs    = require('fs');
+const cp    = require('child_process');
+const build = require('extra-build');
+const htmlEntities   = require('html-entities');
 const markdownToText = require('markdown-to-text').default;
 
+const owner  = 'nodef';
+const repo   = build.readMetadata('.').name;
 const NVGRAPH_URL = 'https://github.com/nodef/nvgraph.sh/releases/download/1.2.15/nvgraph';
 const HELP_URL    = 'https://github.com/nodef/nvgraph.sh/wiki/${name}';
 const HELP_NAME_SIZE = 16;
@@ -29,37 +31,9 @@ function stringAlign(x, n, s) {
 
 
 
-function readFile(f) {
-  var d = fs.readFileSync(f, 'utf8');
-  return d.replace(/\r?\n/g, '\n');
-}
-
-function writeFile(f, d) {
-  d = d.replace(/\r?\n/g, os.EOL);
-  fs.writeFileSync(f, d);
-}
-
-
-function readJson(pth) {
-  var pth = pth||'package.json';
-  var d = readFile(pth)||'{}';
-  return JSON.parse(d);
-}
-
-function writeJson(pth, v) {
-  var pth = pth||'package.json';
-  var d = JSON.stringify(v, null, 2)+'\n';
-  writeFile(pth, d);
-}
-
-
-
-
-function fetchSuper(url) {
+function fetchRelease(url) {
   cp.execSync(`wget -nv ${url}`);
 }
-
-
 
 
 function readDescWiki() {
@@ -67,7 +41,7 @@ function readDescWiki() {
   for (var f of fs.readdirSync('wiki')) {
     if (path.extname(f) !== '.md') continue;
     if (f==='Home.md') continue;
-    var d = readFile(`wiki/${f}`);
+    var d = build.readFileText(`wiki/${f}`);
     var name = f.replace(/\..*/, '');
     var desc = d.match(/^(.*)$/m)[1];
     a.set(name, desc);
@@ -80,7 +54,7 @@ function readHelp() {
   var a = '', ns = HELP_NAME_SIZE, ds = HELP_DESC_SIZE;
   for (var [name, desc] of readDescWiki())
     a += ` ${name.padEnd(ns)} ${stringAlign(desc, ds, 2+ns)}\n`;
-  var d = readFile('man/help.txt');
+  var d = build.readFileText('man/help.txt');
   return d.replace('${commands}', a);
 }
 
@@ -99,8 +73,6 @@ function readIndex(descs) {
 }
 
 
-
-
 function copyMan(dir) {
   fs.mkdirSync('man', {recursive: true});
   if (!fs.existsSync(dir)) return;
@@ -109,14 +81,12 @@ function copyMan(dir) {
     if (f === 'Home.md') continue;
     var g = f.replace(/\.md$/g, '');
     if (fs.existsSync(`man/${g}.txt`)) continue;
-    var d = readFile(`${dir}/${f}`);
+    var d = build.readFileText(`${dir}/${f}`);
     d = markdownToText(d);
     d = htmlEntities.decode(d);
-    writeFile(`man/${g}.txt`, d);
+    build.writeFileText(`man/${g}.txt`, d);
   }
 }
-
-
 
 
 function makeExec() {
@@ -127,15 +97,54 @@ function makeExec() {
 
 
 
-function main(f=true) {
+function buildPackage(f=true) {
   var descs = readDescWiki();
   if (f) copyMan('wiki');
-  if (f) writeFile('man/help.txt', readHelp());
-  writeFile('index.log', readIndex(descs));
-  var p = readJson('package.json');
-  p.keywords = [...new Set([...p.keywords, ...descs.keys()])];
-  if (f) writeJson('package.json', p);
-  if (f) fetchSuper(NVGRAPH_URL);
+  if (f) build.writeFileText('man/help.txt', readHelp());
+  build.writeFileText('index.log', readIndex(descs));
+  var m = build.readMetadata('.');
+  m.keywords = [...new Set([...m.keywords, ...descs.keys()])];
+  if (f) build.writeMetadata('.', m);
+  if (f) fetchRelease(NVGRAPH_URL);
   if (f) makeExec();
 }
-main(process.argv[2] !== 'local');
+
+
+
+
+// Publish a root package to NPM, GitHub.
+function publishRootPackage(ds, ver, typ) {
+  var _package = build.readDocument('package.json');
+  var _readme  = build.readDocument('README.md');
+  var m  = build.readMetadata('.');
+  m.version  = ver;
+  build.writeMetadata('.', m);
+  build.publish('.');
+  try { build.publishGithub('.', owner); }
+  catch {}
+  build.writeDocument(_package);
+  build.writeDocument(_readme);
+}
+
+
+// Publish root packages to NPM, GitHub.
+function publishRootPackages(ds, ver) {
+  buildPackage(true);
+  publishRootPackage(ds, ver, '');
+}
+
+
+// Pushish root, sub packages to NPM, GitHub.
+function publishPackages(ds) {
+  var m   = build.readMetadata('.');
+  var ver = build.nextUnpublishedVersion(m.name, m.version);
+  publishRootPackages(ds, ver);
+}
+
+
+// Finally.
+function main(a) {
+  if (a[2]==='publish-packages') publishPackages([]);
+  else buildPackage(false);
+}
+main(process.argv);
