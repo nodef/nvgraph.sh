@@ -1,4 +1,12 @@
 #pragma once
+#define BUILD   0  // 5 == BUILD_TRACE
+#define OPENMP  1
+#define NVGRAPH 1
+
+#ifndef TYPE
+#define TYPE float
+#endif
+
 #include "_main.hxx"
 #include "Graph.hxx"
 #include "mtx.hxx"
@@ -7,19 +15,11 @@
 #include "vertices.hxx"
 #include "edges.hxx"
 #include "csr.hxx"
-#include "degree.hxx"
-#include "density.hxx"
 #include "duplicate.hxx"
 #include "transpose.hxx"
 #include "dfs.hxx"
-#include "depth.hxx"
-#include "components.hxx"
-#include "sort.hxx"
 #include "deadEnds.hxx"
 #include "selfLoop.hxx"
-#include "identicals.hxx"
-#include "chains.hxx"
-#include "dynamic.hxx"
 #include "statistics.hxx"
 #include "triangular.hxx"
 #include "pagerank.hxx"

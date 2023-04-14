@@ -1,76 +1,64 @@
-#pragma once
 #include <random>
-#include <vector>
 
 using std::uniform_real_distribution;
 
 
 
 
-// ADD-RANDOM-EDGE
+// ADD RANDOM EDGE
 // ---------------
 
-template <class G, class K, class R>
-void addRandomEdge(G& a, R& rnd, K span) {
+template <class G, class R, class V, class FE>
+inline bool addRandomEdge(const G& x, R& rnd, size_t i, size_t n, V w, FE fe) {
+  using K = typename G::key_type;
   uniform_real_distribution<> dis(0.0, 1.0);
-  K u = K(dis(rnd) * span);
-  K v = K(dis(rnd) * span);
-  a.addEdge(u, v);
+  K u = K(i + n*dis(rnd));
+  K v = K(i + n*dis(rnd));
+  return fe(u, v, w);
 }
 
-
-template <class G, class K, class R>
-void addRandomEdgeByDegree(G& a, R& rnd, K span) {
-  uniform_real_distribution<> dis(0.0, 1.0);
-  double deg = a.size() / a.span();
-  K un = K(dis(rnd) * deg * span);
-  K vn = K(dis(rnd) * deg * span);
-  K u = -1, v = -1, n = 0;
-  for (K w : a.vertexKeys()) {
-    if (un<0 && un > n+a.degree(w)) u = w;
-    if (vn<0 && vn > n+a.degree(w)) v = w;
-    if (un>0 && vn>=0) break;
-    n += a.degree(w);
-  }
-  if (u<0) u = K(un/deg);
-  if (v<0) v = K(vn/deg);
-  a.addEdge(u, v);
+template <class G, class R, class V>
+inline bool addRandomEdge(G& a, R& rnd, size_t i, size_t n, V w) {
+  auto fe = [&](auto u, auto v, auto w) { a.addEdge(u, v, w); return true; };
+  return addRandomEdge(a, rnd, i, n, w, fe);
 }
 
 
 
 
-// REMOVE-RANDOM-EDGE
+// REMOVE RANDOM EDGE
 // ------------------
 
-template <class G, class K, class R>
-bool removeRandomEdge(G& a, R& rnd, K u) {
+template <class G, class R, class K, class FE>
+inline bool removeRandomEdgeFrom(const G& x, R& rnd, K u, FE fe) {
   uniform_real_distribution<> dis(0.0, 1.0);
-  if (a.degree(u) == 0) return false;
-  K vi = K(dis(rnd) * a.degree(u)), i = 0;
-  for (K v : a.edgesKeys(u))
-    if (i++ == vi) { a.removeEdge(u, v); return true; }
-  return false;
+  if (x.degree(u) == 0) return false;
+  K vi = K(dis(rnd) * x.degree(u)), i = 0;
+  bool removed = false, skip = false;
+  x.forEachEdgeKey(u, [&](auto v) {
+    if (skip) return;
+    if (i++ == vi) { removed = fe(u, v); skip = true; }
+  });
+  return removed;
+}
+
+template <class G, class R, class K>
+inline bool removeRandomEdgeFrom(G& a, R& rnd, K u) {
+  auto fe = [&](auto u, auto v) { a.removeEdge(u, v); return true; };
+  return removeRandomEdgeFrom(a, rnd, u, fe);
 }
 
 
-template <class G, class R>
-bool removeRandomEdge(G& a, R& rnd) {
+template <class G, class R, class FE>
+inline bool removeRandomEdge(const G& x, R& rnd, size_t i, size_t n, FE fe) {
   using K = typename G::key_type;
   uniform_real_distribution<> dis(0.0, 1.0);
-  K u = K(dis(rnd) * a.span());
-  return removeRandomEdge(a, rnd, u);
+  K u = K(i + n*dis(rnd));
+  return removeRandomEdgeFrom(x, rnd, u, fe);
 }
 
-
 template <class G, class R>
-bool removeRandomEdgeByDegree(G& a, R& rnd) {
-  using K = typename G::key_type;
-  uniform_real_distribution<> dis(0.0, 1.0);
-  K v = K(dis(rnd) * a.size()), n = 0;
-  for (K u : a.vertexKeys()) {
-    if (v > n+a.degree(u)) n += a.degree(u);
-    else return removeRandomEdge(a, rnd, u);
-  }
-  return false;
+inline bool removeRandomEdge(G& a, R& rnd, size_t i, size_t n) {
+  auto fe = [&](auto u, auto v) { a.removeEdge(u, v); return true; };
+  return removeRandomEdge(a, rnd, i, n, fe);
 }

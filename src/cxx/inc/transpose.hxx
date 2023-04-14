@@ -1,5 +1,6 @@
 #pragma once
 #include "Graph.hxx"
+#include "update.hxx"
 
 
 
@@ -8,39 +9,82 @@
 // ---------
 
 template <class H, class G>
-void transposeW(H& a, const G& x, bool unq=false) {
+inline void transposeW(H& a, const G& x) {
+  a.respan(x.span());
   x.forEachVertex([&](auto u, auto d) { a.addVertex(u, d); });
   x.forEachVertexKey([&](auto u) {
     x.forEachEdge(u, [&](auto v, auto w) { a.addEdge(v, u, w); });
   });
-  a.correct(unq);
+  a.update();
 }
-
 template <class G>
-auto transpose(const G& x) {
-  G a; transposeW(a, x, true);
+inline auto transpose(const G& x) {
+  G a; transposeW(a, x);
   return a;
 }
 
 
+#ifdef OPENMP
+template <class H, class G>
+inline void transposeOmpW(H& a, const G& x) {
+  a.respan(x.span());
+  x.forEachVertex([&](auto u, auto d) { a.addVertex(u, d); });
+  #pragma omp parallel
+  {
+    x.forEachVertexKey([&](auto u) {
+      x.forEachEdge(u, [&](auto v, auto w) { addEdgeOmpU(a, v, u, w); });
+    });
+  }
+  updateOmpU(a);
+}
+template <class G>
+inline auto transposeOmp(const G& x) {
+  G a; transposeOmpW(a, x);
+  return a;
+}
+#endif
 
 
-// TRANSPOSE-WITH-DEGREE
+
+// TRANSPOSE WITH DEGREE
 // ---------------------
 
 template <class H, class G>
-void transposeWithDegreeW(H& a, const G& x, bool unq=false) {
+inline void transposeWithDegreeW(H& a, const G& x) {
+  a.respan(x.span());
   x.forEachVertexKey([&](auto u) { a.addVertex(u, x.degree(u)); });
   x.forEachVertexKey([&](auto u) {
     x.forEachEdge(u, [&](auto v, auto w) { a.addEdge(v, u, w); });
   });
-  a.correct(unq);
+  a.update();
 }
-
 template <class G>
-auto transposeWithDegree(const G& x) {
+inline auto transposeWithDegree(const G& x) {
   using K = typename G::key_type;
   using H = decltype(retype(x, K(), K()));
-  H a; transposeWithDegreeW(a, x, true);
+  H a; transposeWithDegreeW(a, x);
   return a;
 }
+
+
+#ifdef OPENMP
+template <class H, class G>
+inline void transposeWithDegreeOmpW(H& a, const G& x) {
+  a.respan(x.span());
+  x.forEachVertexKey([&](auto u) { a.addVertex(u, x.degree(u)); });
+  #pragma omp parallel
+  {
+    x.forEachVertexKey([&](auto u) {
+      x.forEachEdge(u, [&](auto v, auto w) { addEdgeOmpU(a, v, u, w); });
+    });
+  }
+  updateOmpU(a);
+}
+template <class G>
+inline auto transposeWithDegreeOmp(const G& x) {
+  using K = typename G::key_type;
+  using H = decltype(retype(x, K(), K()));
+  H a; transposeWithDegreeOmpW(a, x);
+  return a;
+}
+#endif

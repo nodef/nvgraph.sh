@@ -21,8 +21,8 @@ auto sssp(float& t, int T, const G& x, K u) {
   vector<cudaDataType_t> etype {CUDA_R_32F};
   vector<float> dists(x.order());
   auto ks    = vertexKeys(x);
-  auto vfrom = sourceOffsetsAs(x, int());
-  auto efrom = destinationIndicesAs(x, int());
+  auto vfrom = sourceOffsetsAs<int>(x, ks);
+  auto efrom = destinationIndicesAs<int>(x, ks);
   auto edata = edgeData(x, ks);
   int i = find(ks.begin(), ks.end(), u) - ks.begin();
 

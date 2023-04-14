@@ -3,6 +3,7 @@
 #include <vector>
 #include <istream>
 #include <sstream>
+#include "update.hxx"
 
 using std::string;
 using std::vector;
@@ -13,11 +14,11 @@ using std::getline;
 
 
 
-// READ-SNAP-TEMPORAL
+// READ SNAP TEMPORAL
 // ------------------
 
 template <class G>
-bool readSnapTemporalLineW(G& a, const string& ln, bool sym=false) {
+inline bool readSnapTemporalLineW(G& a, const string& ln, bool sym=false) {
   using K = typename G::key_type;
   K u, v; int t; stringstream ls(ln);
   if (!(ls >> u >> v >> t)) return false;
@@ -26,12 +27,12 @@ bool readSnapTemporalLineW(G& a, const string& ln, bool sym=false) {
   return true;
 }
 template <class G>
-bool readSnapTemporalW(G& a, istream& s, size_t N, bool sym=false) {
+inline bool readSnapTemporalW(G& a, istream& s, size_t N, bool sym=false) {
   size_t i = 0;
   for (; i<N; ++i) {
     string ln; getline(s, ln);
     if (!readSnapTemporalLineW(a, ln, sym)) break;
   }
-  a.correct();
-  return i>0;
+  if (i>0) a.update();
+  return N==0 || i>0;
 }

@@ -1,6 +1,6 @@
 {
   "name": "nvgraph.sh",
-  "version": "1.2.24",
+  "version": "1.2.25",
   "description": "CLI for nvGraph, which is a GPU-based graph analytics library written by NVIDIA, using CUDA.",
   "preferGlobal": true,
   "main": "index.sh",
@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/nodef/nvgraph.sh#readme",
   "devDependencies": {
-    "extra-build": "^2.2.39",
+    "extra-build": "^2.2.42",
     "html-entities": "^2.3.3",
     "markdown-to-text": "^0.1.1"
   }

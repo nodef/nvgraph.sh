@@ -28,8 +28,8 @@ auto pagerank(float& t, int R, const G& xt, T p=0.85, T E=1e-6, int L=500, const
   vector<T> ranks(N);
   if (N==0) return decompressContainer(xt, ranks);
   auto ks    = vertexKeys(xt);
-  auto vfrom = sourceOffsetsAs(xt, int());
-  auto efrom = destinationIndicesAs(xt, int());
+  auto vfrom = sourceOffsetsAs<int>(xt, ks);
+  auto efrom = destinationIndicesAs<int>(xt, ks);
   auto vdata = vertexData(xt, ks, [&](auto v, auto d) { return xt.vertexValue(v)==0? T(1) : T(); });
   auto edata = edgeData(xt, ks, [&](auto v, auto u, auto w) { return T(1)/xt.vertexValue(u); });
   if (q) ranks = compressContainer(xt, *q);

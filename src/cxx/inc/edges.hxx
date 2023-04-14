@@ -9,7 +9,7 @@ using std::vector;
 
 
 
-// EDGE-KEYS
+// EDGE KEYS
 // ---------
 
 template <class G, class K>
@@ -27,7 +27,7 @@ inline auto edgeKey(const G& x, K u) {
 
 
 
-// EDGE-VALUES
+// EDGE VALUES
 // -----------
 
 template <class G, class K>
@@ -38,11 +38,11 @@ inline auto edgeValues(const G& x, K u) {
 
 
 
-// EDGE-DATA
+// EDGE DATA
 // ---------
 
-template <class G, class J, class FM>
-auto edgeData(const G& x, const J& ks, FM fm) {
+template <class G, class KS, class FM>
+auto edgeData(const G& x, const KS& ks, FM fm) {
   using K = typename G::key_type;
   using E = typename G::edge_value_type;
   using T = remove_reference_t<decltype(fm(K(), K(), E()))>;
@@ -51,9 +51,9 @@ auto edgeData(const G& x, const J& ks, FM fm) {
     x.forEachEdge(u, [&](auto v, auto w) { a.push_back(fm(u, v, w)); });
   return a;
 }
-template <class G, class J>
-inline auto edgeData(const G& x, const J& ks) {
-  auto fm = [&](auto u, auto v, auto w) { return w; };
+template <class G, class KS>
+inline auto edgeData(const G& x, const KS& ks) {
+  auto fm = [](auto u, auto v, auto w) { return w; };
   return edgeData(x, ks, fm);
 }
 template <class G>

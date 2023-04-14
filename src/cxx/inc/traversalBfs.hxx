@@ -35,8 +35,8 @@ auto traversalBfs(float& t, int T, const G& x, K u, size_t alpha, size_t beta) {
   vector<int> dists(x.order());
   vector<int> preds(x.order());
   auto ks    = vertexKeys(x);
-  auto vfrom = sourceOffsetsAs(x, int());
-  auto efrom = destinationIndicesAs(x, int());
+  auto vfrom = sourceOffsetsAs<int>(x, ks);
+  auto efrom = destinationIndicesAs<int>(x, ks);
   int i = find(ks.begin(), ks.end(), u) - ks.begin();
 
   TRY( nvgraphCreate(&h) );

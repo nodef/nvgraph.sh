@@ -17,8 +17,8 @@ auto triangleCount(float& t, int T, const G& x) {
   nvgraphGraphDescr_t g;
   struct nvgraphCSRTopology32I_st csr;
   auto ks    = vertexKeys(x);
-  auto vfrom = sourceOffsetsAs(x, int());
-  auto efrom = destinationIndicesAs(x, int());
+  auto vfrom = sourceOffsetsAs<int>(x, ks);
+  auto efrom = destinationIndicesAs<int>(x, ks);
 
   TRY( nvgraphCreate(&h) );
   TRY( nvgraphCreateGraphDescr(h, &g) );

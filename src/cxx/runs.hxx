@@ -212,13 +212,14 @@ void runTraversalBfsOutput(ostream& a, const RunTraversalBfsOptions& o, const G&
 // -----
 
 void runSssp(int argc, char **argv) {
-  RunSsspOptions o; float t;
+  RunSsspOptions o; float t = 0;
   string e, s0; stringstream s(s0);
   runSsspParse(o, argc, argv);
   e = runVerify(o);
   if (runError(e)) return;
   printf("Loading graph %s ...\n", o.input.c_str());
-  auto x  = readMtxOutDiGraph(o.input.c_str()); println(x);
+  DiGraph<uint32_t, None, float> x;
+  readMtxOmpW(x, o.input.c_str(), true); println(x);
   auto xt = transpose(x); print(xt); printf(" (transpose)\n");
   e = runSsspVerify(o, xt);
   if (runError(e)) return;
@@ -231,13 +232,14 @@ void runSssp(int argc, char **argv) {
 
 
 void runPagerank(int argc, char **argv) {
-  RunPagerankOptions o; float t;
+  RunPagerankOptions o; float t = 0;
   string e, s0; stringstream s(s0);
   runPagerankParse(o, argc, argv);
   e = runPagerankVerify(o);
   if (runError(e)) return;
   printf("Loading graph %s ...\n", o.input.c_str());
-  auto x  = readMtxOutDiGraph(o.input.c_str()); println(x);
+  DiGraph<> x;
+  readMtxOmpW(x, o.input.c_str());   println(x);
   auto xt = transposeWithDegree(x);  print(xt); printf(" (transposeWithDegree)\n");
   auto ranks = pagerank(t, o.repeat, xt, o.alpha, o.tolerance, o.max_iter);
   printf("[%.3f ms] nvgraphPagerank\n", t);
@@ -248,14 +250,15 @@ void runPagerank(int argc, char **argv) {
 
 
 void runTriangleCount(int argc, char **argv) {
-  RunTriangleCountOptions o; float t;
+  RunTriangleCountOptions o; float t = 0;
   string e, s0; stringstream s(s0);
   runTriangleCountParse(o, argc, argv);
   e = runVerify(o);
   if (runError(e)) return;
   printf("Loading graph %s ...\n", o.input.c_str());
-  auto x  = readMtxOutDiGraph(o.input.c_str()); println(x);
-  auto xl = lowerTriangular(x); print(xl);      printf(" (lowerTriangular)\n");
+  DiGraph<> x;
+  readMtxOmpW(x, o.input.c_str()); println(x);
+  auto xl = lowerTriangularOmp(x); print(xl); printf(" (lowerTriangular)\n");
   uint64_t count = triangleCount(t, o.repeat, xl);
   printf("[%.3f ms] nvgraphTriangleCount\n", t);
   runTriangleCountOutput(s, o, xl, t, count);
@@ -264,13 +267,14 @@ void runTriangleCount(int argc, char **argv) {
 
 
 void runTraversalBfs(int argc, char **argv) {
-  RunTraversalBfsOptions o; float t;
+  RunTraversalBfsOptions o; float t = 0;
   string e, s0; stringstream s(s0);
   runTraversalBfsParse(o, argc, argv);
   e = runVerify(o);
   if (runError(e)) return;
   printf("Loading graph %s ...\n", o.input.c_str());
-  auto x = readMtxOutDiGraph(o.input.c_str());  println(x);
+  DiGraph<> x;
+  readMtxOmpW(x, o.input.c_str()); println(x);
   e = runTraversalBfsVerify(o, x);
   if (runError(e)) return;
   auto a = traversalBfs(t, o.repeat, x, o.source, o.alpha, o.beta);

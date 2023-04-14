@@ -22,8 +22,8 @@ auto srSpmv(float& t, int T, const G& x, vector<float>& vx, vector<float>& vy, f
   vector<cudaDataType_t> etype {CUDA_R_32F};
   vector<float> rslts(x.order());
   auto ks    = vertexKeys(x);
-  auto vfrom = sourceOffsetsAs(x, int());
-  auto efrom = destinationIndicesAs(x, int());
+  auto vfrom = sourceOffsetsAs<int>(x, ks);
+  auto efrom = destinationIndicesAs<int>(x, ks);
   auto edata = edgeData(x, ks);
 
   TRY( nvgraphCreate(&h) );
