@@ -7,7 +7,7 @@ const markdownToText = require('markdown-to-text').default;
 
 const owner  = 'nodef';
 const repo   = build.readMetadata('.').name;
-const NVGRAPH_URL = 'https://github.com/nodef/nvgraph.sh/releases/download/1.2.15/nvgraph';
+const NVGRAPH_URL = 'https://github.com/nodef/nvgraph.sh/releases/download/1.3.0/nvgraph';
 const HELP_URL    = 'https://github.com/nodef/nvgraph.sh/wiki/${name}';
 const HELP_NAME_SIZE = 16;
 const HELP_DESC_SIZE = 74;

@@ -85,10 +85,10 @@ $ nvgraph traversal-bfs -o=out.json -f web-Google.mtx -s=1
 
 | Command         | Action                       |
 | --------------- | ---------------------------- |
-| [pagerank] | Finds pagerank of all vertices. |
-| [sssp] | Finds single source shortest path from source vertex. |
-| [traversal-bfs] | Traverses breadth-first from source vertex. |
-| [triangle-count] | Counts triangles in undirected, lower triangular graph. |
+| [pagerank][01] | Finds pagerank of all vertices. |
+| [sssp][02] | Finds single source shortest path from source vertex. |
+| [traversal-bfs][03] | Traverses breadth-first from source vertex. |
+| [triangle-count][04] | Counts triangles in undirected, lower triangular graph. |
 
 <br>
 <br>
@@ -110,7 +110,7 @@ $ nvgraph traversal-bfs -o=out.json -f web-Google.mtx -s=1
 [![DOI](https://zenodo.org/badge/362208913.svg)](https://zenodo.org/badge/latestdoi/362208913)
 
 
-[pagerank]: https://github.com/nodef/nvgraph.sh/wiki/pagerank
-[sssp]: https://github.com/nodef/nvgraph.sh/wiki/sssp
-[traversal-bfs]: https://github.com/nodef/nvgraph.sh/wiki/traversal-bfs
-[triangle-count]: https://github.com/nodef/nvgraph.sh/wiki/triangle-count
+[01]: https://github.com/nodef/nvgraph.sh/wiki/pagerank
+[02]: https://github.com/nodef/nvgraph.sh/wiki/sssp
+[03]: https://github.com/nodef/nvgraph.sh/wiki/traversal-bfs
+[04]: https://github.com/nodef/nvgraph.sh/wiki/triangle-count
