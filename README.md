@@ -108,7 +108,7 @@ $ nvgraph traversal-bfs -o=out.json -f web-Google.mtx -s=1
 [![](https://img.youtube.com/vi/3s9psf01ldo/maxresdefault.jpg)](https://www.youtube.com/watch?v=3s9psf01ldo)
 [![ORG](https://img.shields.io/badge/org-nodef-green?logo=Org)](https://nodef.github.io)
 [![DOI](https://zenodo.org/badge/362208913.svg)](https://zenodo.org/badge/latestdoi/362208913)
-
+![](https://ga-beacon.deno.dev/G-RC63DPBH3P:SH3Eq-NoQ9mwgYeHWxu7cw/github.com/nodef/nvgraph.sh)
 
 [01]: https://github.com/nodef/nvgraph.sh/wiki/pagerank
 [02]: https://github.com/nodef/nvgraph.sh/wiki/sssp
